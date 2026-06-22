@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет | Театральная афиша</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=20260622-8">
+</head>
+<body>
+    <header class="site-header account-header">
+        <a class="brand" href="/">
+            <span class="brand-mark"><i class="fa-solid fa-ticket"></i></span>
+            <span>
+                <strong>Личный кабинет</strong>
+                <small>Театральная афиша</small>
+            </span>
+        </a>
+        <nav class="main-nav" aria-label="Навигация кабинета">
+            <a href="/">Афиша</a>
+            <a href="/admin" id="accountAdminLink" hidden>Админка</a>
+        </nav>
+        <button class="login-pill" id="logoutButton" type="button" hidden>
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>Выйти</span>
+        </button>
+    </header>
+
+    <main>
+        <section class="account-page">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Профиль</p>
+                    <h1>Мои бронирования</h1>
+                </div>
+                <p id="accountStatus">Проверяем вход...</p>
+            </div>
+
+            <section class="account-login" id="accountLogin">
+                <div>
+                    <p class="eyebrow">Демо-вход</p>
+                    <h2>Войдите в аккаунт</h2>
+                    <p>Для проверки сценариев можно использовать тестовые роли.</p>
+                </div>
+                <div class="demo-accounts">
+                    <button type="button" data-login="user" data-password="user123">
+                        <strong>Пользователь</strong>
+                        <span>user / user123</span>
+                    </button>
+                    <button type="button" data-login="admin" data-password="admin123">
+                        <strong>Администратор</strong>
+                        <span>admin / admin123</span>
+                    </button>
+                </div>
+                <form class="auth-form" id="accountAuthForm">
+                    <label>
+                        Логин
+                        <input id="accountLoginInput" required>
+                    </label>
+                    <label>
+                        Пароль
+                        <input id="accountPasswordInput" type="password" required>
+                    </label>
+                    <button class="primary-action" type="submit">Войти</button>
+                </form>
+            </section>
+
+            <section id="accountContent" hidden>
+                <div class="account-summary" id="accountSummary"></div>
+                <div class="booking-list" id="accountBookings"></div>
+            </section>
+        </section>
+    </main>
+
+    <script src="/static/account.js?v=20260622-8"></script>
+</body>
+</html>

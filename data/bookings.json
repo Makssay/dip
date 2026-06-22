@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "username": "user",
+    "performance_id": 4,
+    "performance_title": "Вишневый сад",
+    "theater": "МХТ им. Чехова",
+    "date": "2026-06-25",
+    "time": "19:00",
+    "seats": [
+      "C4"
+    ],
+    "total": 2415,
+    "status": "Забронировано"
+  }
+]

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка | Театральная афиша</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/admin.css?v=20260622-6">
+</head>
+<body>
+    <header class="admin-header">
+        <a class="brand" href="/">
+            <span class="brand-mark"><i class="fa-solid fa-ticket"></i></span>
+            <span>
+                <strong>Админка афиши</strong>
+                <small>Управление спектаклями</small>
+            </span>
+        </a>
+        <nav>
+            <a href="/">На сайт</a>
+            <a class="ghost" href="#orders">Заказы</a>
+            <button id="newButton" type="button">Новый спектакль</button>
+        </nav>
+    </header>
+
+    <main class="admin-shell">
+        <section class="panel list-panel">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow">Репертуар</p>
+                    <h1>Спектакли</h1>
+                </div>
+                <span id="itemsCount">0</span>
+            </div>
+            <div class="admin-list" id="adminList"></div>
+        </section>
+
+        <section class="panel form-panel">
+            <div class="panel-head">
+                <div>
+                    <p class="eyebrow" id="formMode">Создание</p>
+                    <h2 id="formTitle">Новый спектакль</h2>
+                </div>
+            </div>
+
+            <form id="performanceForm">
+                <input type="hidden" id="performanceId">
+
+                <label>
+                    Название
+                    <input id="title" name="title" required>
+                </label>
+
+                <div class="form-grid">
+                    <label>
+                        Театр
+                        <input id="theater" name="theater" list="theaterOptions" required>
+                        <datalist id="theaterOptions">
+                            <option value="МХТ им. Чехова"></option>
+                            <option value="Большой театр"></option>
+                            <option value="Театр им. Вахтангова"></option>
+                            <option value="Современник"></option>
+                            <option value="Театр на Таганке"></option>
+                            <option value="Новая Опера"></option>
+                            <option value="Театр Олега Табакова"></option>
+                        </datalist>
+                    </label>
+                    <label>
+                        Жанр
+                        <select id="genre" name="genre" required>
+                            <option value="Драма">Драма</option>
+                            <option value="Комедия">Комедия</option>
+                            <option value="Балет">Балет</option>
+                            <option value="Опера">Опера</option>
+                            <option value="Трагедия">Трагедия</option>
+                            <option value="Мистика">Мистика</option>
+                            <option value="Мюзикл">Мюзикл</option>
+                            <option value="Детский">Детский</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <label>
+                        Дата
+                        <input id="date" name="date" type="date" required>
+                    </label>
+                    <label>
+                        Время
+                        <input id="time" name="time" type="time" required>
+                    </label>
+                </div>
+
+                <div class="form-grid">
+                    <label>
+                        Цена от, ₽
+                        <input id="price" name="price" type="number" min="0" required>
+                    </label>
+                    <label>
+                        Возраст
+                        <select id="age" name="age" required>
+                            <option value="0+">0+</option>
+                            <option value="6+">6+</option>
+                            <option value="12+">12+</option>
+                            <option value="16+" selected>16+</option>
+                            <option value="18+">18+</option>
+                        </select>
+                    </label>
+                </div>
+
+                <label>
+                    Адрес
+                    <input id="address" name="address" required>
+                </label>
+
+                <label>
+                    Длительность
+                    <select id="duration" name="duration" required>
+                        <option value="1 ч 30 мин">1 ч 30 мин</option>
+                        <option value="2 ч">2 ч</option>
+                        <option value="2 ч 15 мин">2 ч 15 мин</option>
+                        <option value="2 ч 30 мин">2 ч 30 мин</option>
+                        <option value="2 ч 45 мин">2 ч 45 мин</option>
+                        <option value="3 ч">3 ч</option>
+                        <option value="3 ч 20 мин">3 ч 20 мин</option>
+                    </select>
+                </label>
+
+                <label>
+                    Быстрый выбор постера
+                    <select id="posterPreset">
+                        <option value="">Не менять URL постера</option>
+                        <option value="https://images.unsplash.com/photo-1507924538820-ede94a04019d?auto=format&fit=crop&w=900&q=85">Театральный зал</option>
+                        <option value="https://images.unsplash.com/photo-1518834107812-67b0b7c58434?auto=format&fit=crop&w=900&q=85">Балет</option>
+                        <option value="https://images.unsplash.com/photo-1503095396549-807759245b35?auto=format&fit=crop&w=900&q=85">Сцена</option>
+                        <option value="https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?auto=format&fit=crop&w=900&q=85">Зрительный зал</option>
+                    </select>
+                </label>
+
+                <label>
+                    URL постера
+                    <input id="image" name="image" type="url" required>
+                </label>
+
+                <label>
+                    Описание
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </label>
+
+                <label class="checkbox-row">
+                    <input id="featured" name="featured" type="checkbox">
+                    Сделать главным спектаклем
+                </label>
+
+                <div class="form-actions">
+                    <button class="primary" type="submit">Сохранить</button>
+                    <button class="ghost" id="cancelButton" type="button">Очистить</button>
+                    <button class="danger" id="deleteButton" type="button">Удалить</button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <main class="orders-shell" id="orders">
+        <section class="panel orders-panel">
+            <div class="panel-head orders-head">
+                <div>
+                    <p class="eyebrow">Заказы</p>
+                    <h1>Бронирования</h1>
+                </div>
+                <div class="orders-actions">
+                    <span id="bookingsCount">0</span>
+                    <a class="primary export-link" href="/api/admin/bookings.xlsx">Скачать Excel</a>
+                </div>
+            </div>
+            <div class="orders-toolbar">
+                <label>
+                    Поиск
+                    <input id="bookingSearch" placeholder="Спектакль, пользователь, место">
+                </label>
+                <label>
+                    Статус
+                    <select id="bookingStatusFilter">
+                        <option value="">Все статусы</option>
+                        <option value="Забронировано">Забронировано</option>
+                    </select>
+                </label>
+            </div>
+            <div class="orders-table-wrap">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Пользователь</th>
+                            <th>Спектакль</th>
+                            <th>Дата</th>
+                            <th>Места</th>
+                            <th>Сумма</th>
+                            <th>Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookingsList"></tbody>
+                </table>
+            </div>
+            <div class="orders-pagination">
+                <button class="ghost" id="bookingPrev" type="button">Назад</button>
+                <span id="bookingPageInfo">Страница 1</span>
+                <button class="ghost" id="bookingNext" type="button">Вперед</button>
+            </div>
+        </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="/static/admin.js?v=20260622-6"></script>
+</body>
+</html>

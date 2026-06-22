@@ -1,0 +1,17 @@
+.venv/
+.venv311/
+.idea/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.sqlite3
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.log
+.env

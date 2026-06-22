@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Театральная афиша</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/static/css/style.css?v=20260622-8">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="/">
+            <span class="brand-mark"><i class="fa-solid fa-ticket"></i></span>
+            <span>
+                <strong>Театральная афиша</strong>
+                <small>Москва</small>
+            </span>
+        </a>
+
+        <nav class="main-nav" aria-label="Главная навигация">
+            <a href="#events">Афиша</a>
+            <a href="#premieres">Премьеры</a>
+            <a href="#theaters">Театры</a>
+            <a href="/admin" id="adminNavLink" hidden>Админка</a>
+        </nav>
+
+        <button class="login-pill" id="loginButton" type="button">
+            <i class="fa-solid fa-user"></i>
+            <span>Войти</span>
+        </button>
+
+        <form class="header-search" id="headerSearch">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" type="search" placeholder="Спектакль, театр или жанр">
+        </form>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-copy">
+                <p class="eyebrow">Афиша недели</p>
+                <h1>Выберите вечер в театре без лишней суеты</h1>
+                <p class="hero-lead">
+                    Премьеры, классика и балет на одной странице. Фильтруйте по дате,
+                    театру и жанру, открывайте детали и быстро находите подходящий спектакль.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="primary-action" href="#events">
+                        Смотреть афишу
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <button class="ghost-action" id="todayButton" type="button">
+                        Сегодня
+                    </button>
+                </div>
+            </div>
+
+            <article class="featured-card" id="featuredCard" aria-live="polite"></article>
+        </section>
+
+        <section class="quick-dates" aria-label="Быстрый выбор даты">
+            <button class="date-chip active" data-range="all">Все даты</button>
+            <button class="date-chip" data-range="today">Сегодня</button>
+            <button class="date-chip" data-range="tomorrow">Завтра</button>
+            <button class="date-chip" data-range="week">Неделя</button>
+            <button class="date-chip" data-range="weekend">Выходные</button>
+        </section>
+
+        <section class="content-shell" id="events">
+            <aside class="filters" aria-label="Фильтры афиши">
+                <div>
+                    <p class="eyebrow">Подбор</p>
+                    <h2>Фильтры</h2>
+                </div>
+
+                <label>
+                    Театр
+                    <select id="theaterFilter">
+                        <option value="">Все театры</option>
+                    </select>
+                </label>
+
+                <label>
+                    Жанр
+                    <select id="genreFilter">
+                        <option value="">Все жанры</option>
+                    </select>
+                </label>
+
+                <label>
+                    Дата с
+                    <input id="dateFrom" type="date">
+                </label>
+
+                <label>
+                    Дата по
+                    <input id="dateTo" type="date">
+                </label>
+
+                <label>
+                    Сортировка
+                    <select id="sortFilter">
+                        <option value="date">Сначала ближайшие</option>
+                        <option value="price_asc">Сначала дешевле</option>
+                        <option value="price_desc">Сначала дороже</option>
+                        <option value="title">По названию</option>
+                    </select>
+                </label>
+
+                <button class="secondary-action" id="resetFilters" type="button">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Сбросить
+                </button>
+            </aside>
+
+            <section class="playbill">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Репертуар</p>
+                        <h2>Ближайшие спектакли</h2>
+                    </div>
+                    <p id="resultCount">Загрузка...</p>
+                </div>
+
+                <div class="events-grid" id="eventsGrid" aria-live="polite"></div>
+            </section>
+        </section>
+
+        <section class="premieres-section" id="premieres">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Премьеры</p>
+                    <h2>Премьеры сезона</h2>
+                </div>
+                <p>Отдельная подборка для быстрого выбора</p>
+            </div>
+            <div class="premieres-grid" id="premieresGrid" aria-live="polite"></div>
+        </section>
+
+        <section class="theaters-strip" id="theaters">
+            <div>
+                <p class="eyebrow">Площадки</p>
+                <h2>Театры в афише</h2>
+            </div>
+            <div class="theater-list" id="theaterList"></div>
+        </section>
+    </main>
+
+    <dialog class="event-dialog" id="eventDialog">
+        <button class="dialog-close" id="closeDialog" aria-label="Закрыть">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="dialog-body" id="dialogBody"></div>
+    </dialog>
+
+    <dialog class="event-dialog auth-dialog" id="authDialog">
+        <button class="dialog-close" id="closeAuth" aria-label="Закрыть">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="auth-body">
+            <p class="eyebrow">Демо-вход</p>
+            <h3>Тестовые аккаунты</h3>
+            <p>Для дипломной демонстрации доступны две роли.</p>
+            <div class="demo-accounts">
+                <button type="button" data-login="user" data-password="user123">
+                    <strong>Пользователь</strong>
+                    <span>user / user123</span>
+                </button>
+                <button type="button" data-login="admin" data-password="admin123">
+                    <strong>Администратор</strong>
+                    <span>admin / admin123</span>
+                </button>
+            </div>
+            <form class="auth-form" id="authForm">
+                <label>
+                    Логин
+                    <input id="authLogin" required>
+                </label>
+                <label>
+                    Пароль
+                    <input id="authPassword" type="password" required>
+                </label>
+                <button class="primary-action" type="submit">Войти</button>
+            </form>
+        </div>
+    </dialog>
+
+    <dialog class="event-dialog seats-dialog" id="seatsDialog">
+        <button class="dialog-close" id="closeSeats" aria-label="Закрыть">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="seats-body" id="seatsBody"></div>
+    </dialog>
+
+    <script src="/static/js/app.js?v=20260622-8"></script>
+</body>
+</html>
